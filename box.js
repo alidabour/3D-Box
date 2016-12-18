@@ -217,19 +217,19 @@ function addCube(){
     ];
 }
 var left = function(){
-     if(allTra[numOfCubes][14]!=0.0 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]+0.5)*-2] !=1)
+     if(!gameOver && allTra[numOfCubes][14]!=0.0 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]+0.5)*-2] !=1)
       allTra[numOfCubes][14]+=0.5;
 }
 var right = function(){
-    if(allTra[numOfCubes][14]!=-1.5 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]-0.5)*-2] !=1)
+    if(!gameOver && allTra[numOfCubes][14]!=-1.5 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]-0.5)*-2] !=1)
          allTra[numOfCubes][14]-=0.5;
 }
 var upkey = function(){
-    if(allTra[numOfCubes][12]!=0.0 && boxPlaces[(allTra[numOfCubes][12]-0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
+    if(!gameOver && allTra[numOfCubes][12]!=0.0 && boxPlaces[(allTra[numOfCubes][12]-0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
          allTra[numOfCubes][12]-=0.5;
 }
 var down = function(){
-     if(allTra[numOfCubes][12]!=1.5 && boxPlaces[(allTra[numOfCubes][12]+0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
+     if(!gameOver && allTra[numOfCubes][12]!=1.5 && boxPlaces[(allTra[numOfCubes][12]+0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
         allTra[numOfCubes][12]+=0.5;
 }
 window.onload = function init() {
@@ -237,7 +237,6 @@ window.onload = function init() {
     canvas = document.getElementById( "gl-canvas" );
     window.onkeydown = function(event) {
         var key = String.fromCharCode(event.keyCode);
-        if(!gameOver){
         switch(key) {
             case '(':
                 down();
@@ -251,7 +250,6 @@ window.onload = function init() {
             case '%':
                 left();
                 break;
-        }
         }
     };
 
