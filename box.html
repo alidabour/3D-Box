@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+    canvas { background: blue; }
+</style>
+
+<p> </p>
+<button id = "Button1">Increase Z</button>
+<button id = "Button2">Decrease Z</button>
+<button id = "incR">Increase R</button>
+<button id = "decR">Decrease R</button>
+
+<p> </p>
+<button id = "incTheta">Increase theta</button>
+<button id = "decTheta">Decrease theta</button>
+<button id = "Button7">Increase phi</button>
+<button id = "Button8">Decrease phi</button>
+<p> </p>
+<p></p>
+<h1 id="score">Score : </h1>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec3 vNormal;
+attribute  vec4 vColor;
+attribute float tMatrix;
+attribute  vec2 vTexCoord;
+
+varying vec4 fColor;
+varying vec2 fTexCoord;
+
+uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform mat4 modelView;
+uniform mat4 projection;
+uniform mat4 translate;
+uniform vec4 lightPosition;
+uniform float shininess;
+
+
+void main() 
+{
+	 vec3 pos = -(modelView * vPosition).xyz;
+    
+    //fixed light postion
+    
+    vec3 light = lightPosition.xyz;
+    vec3 L = normalize( light - pos );
+
+	
+    vec3 E = normalize( -pos );
+    vec3 H = normalize( L + E );
+    
+    vec4 NN = vec4(vNormal,0);
+
+    // Transform vertex normal into eye coordinates
+       
+    vec3 N = normalize( (modelView*NN).xyz);
+
+    // Compute terms in the illumination equation
+    vec4 ambient = ambientProduct;
+
+    float Kd = max( dot(L, N), 0.0 );
+    vec4  diffuse = Kd*diffuseProduct;
+
+    float Ks = pow( max(dot(N, H), 0.0), shininess );
+    vec4  specular = Ks * specularProduct;
+    
+    if( dot(L, N) < 0.0 ) {
+	specular = vec4(0.0, 0.0, 0.0, 1.0);
+    } 
+	
+	gl_Position = projection*modelView*translate*vPosition;
+    fColor = ambient + diffuse +specular+vColor;
+    fColor.a = 1.0;
+    fTexCoord = vTexCoord;
+
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec4 fColor;
+
+varying  vec2 fTexCoord;
+uniform sampler2D texture;
+void
+main()
+{
+    gl_FragColor = fColor * texture2D( texture, fTexCoord );
+}
+</script>
+
+<script type="text/javascript" src="Lib/webgl-utils.js"></script>
+<script type="text/javascript" src="Lib/initShaders.js"></script>
+<script type="text/javascript" src="Lib/MV.js"></script>
+<script type="text/javascript" src="box.js"></script>
+
+<body>
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<img id = "texImage" src = "res/box.jpg" crossOrigin="anonymous" hidden></img>
+
+</body>
+</html>
