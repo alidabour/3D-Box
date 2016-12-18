@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta name="description" content="3D Box is WebGL project show animation of cubes">
+</head>
 <style type="text/css">
     canvas { background: blue; }
 </style>
@@ -100,9 +103,14 @@ main()
 <script type="text/javascript" src="box.js"></script>
 
 <body>
+<button id = "Left">Left</button>
+<button id = "Right">Right</button>
+<button id = "Up">Up</button>
+<button id = "Down">Down</button>
 <canvas id="gl-canvas" width="512" height="512">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
+
 <img id = "texImage" src = "res/box.jpg" crossOrigin="anonymous" hidden></img>
 
 </body>

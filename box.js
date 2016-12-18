@@ -216,7 +216,22 @@ function addCube(){
         x[xR],2,y[yR], 1
     ];
 }
-
+var left = function(){
+     if(allTra[numOfCubes][14]!=0.0 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]+0.5)*-2] !=1)
+      allTra[numOfCubes][14]+=0.5;
+}
+var right = function(){
+    if(allTra[numOfCubes][14]!=-1.5 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]-0.5)*-2] !=1)
+         allTra[numOfCubes][14]-=0.5;
+}
+var upkey = function(){
+    if(allTra[numOfCubes][12]!=0.0 && boxPlaces[(allTra[numOfCubes][12]-0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
+         allTra[numOfCubes][12]-=0.5;
+}
+var down = function(){
+     if(allTra[numOfCubes][12]!=1.5 && boxPlaces[(allTra[numOfCubes][12]+0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
+        allTra[numOfCubes][12]+=0.5;
+}
 window.onload = function init() {
 
     canvas = document.getElementById( "gl-canvas" );
@@ -225,20 +240,16 @@ window.onload = function init() {
         if(!gameOver){
         switch(key) {
             case '(':
-                if(allTra[numOfCubes][12]!=1.5 && boxPlaces[(allTra[numOfCubes][12]+0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
-                allTra[numOfCubes][12]+=0.5;
+                down();
                 break;
             case '&':
-                if(allTra[numOfCubes][12]!=0.0 && boxPlaces[(allTra[numOfCubes][12]-0.5)*2][z][(allTra[numOfCubes][14])*-2] !=1)
-                allTra[numOfCubes][12]-=0.5;
+                upkey();
                 break;
             case '\'':
-                if(allTra[numOfCubes][14]!=-1.5 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]-0.5)*-2] !=1)
-                allTra[numOfCubes][14]-=0.5;
+                right();
                 break;
             case '%':
-                if(allTra[numOfCubes][14]!=0.0 && boxPlaces[allTra[numOfCubes][12]*2][z][(allTra[numOfCubes][14]+0.5)*-2] !=1)
-                allTra[numOfCubes][14]+=0.5;
+                left();
                 break;
         }
         }
@@ -326,6 +337,11 @@ window.onload = function init() {
     document.getElementById("decTheta").onclick = function(){theta -= dr; };
     document.getElementById("Button7").onclick = function(){phi += dr; };
     document.getElementById("Button8").onclick = function(){phi -= dr;};
+    document.getElementById("Left").onclick = left;
+        document.getElementById("Right").onclick = right;
+
+    document.getElementById("Up").onclick = upkey;
+    document.getElementById("Down").onclick = down;
 
     var image = document.getElementById("texImage");
     configureTexture( image );
